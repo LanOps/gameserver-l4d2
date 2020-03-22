@@ -1,0 +1,135 @@
+---
+kind: pipeline
+name: default
+
+steps:
+
+# Notifacations - Start
+
+- name: notify-discord-start-master
+  image: plugins/webhook
+  settings:
+    urls:
+      from_secret: DISCORD_WEBHOOK_URL
+    template: |
+      {
+        "username": "L4D2 Docker Build Drone",
+        "content": "__***{{uppercase build.branch }}***__ - \"${DRONE_COMMIT_MESSAGE}\" - Docker Build Started.",
+        "avatar_url": "https://cdn.worldvectorlogo.com/logos/drone.svg"
+      }
+  when:
+    event:
+    - push
+    branch:
+    - master
+
+- name: notify-discord-start-master-tagged
+  image: plugins/webhook
+  settings:
+    urls:
+      from_secret: DISCORD_WEBHOOK_URL
+    template: |
+      {
+        "username": "L4D2 Docker Build Drone",
+        "content": "__***{{uppercase build.branch }}***__ - \"${DRONE_COMMIT_MESSAGE}\" - **TAGGED** Docker Build Started.",
+        "avatar_url": "https://cdn.worldvectorlogo.com/logos/drone.svg"
+      }
+  when:
+    event:
+    - tag
+    branch:
+    - master
+
+# Build & Push Docker Image
+
+- name: build-push-image-master-latest
+  image: plugins/docker
+  settings:
+    repo: lanopsdev/gameserver-l4d2
+    tags: 
+    - latest
+    username:
+      from_secret: DOCKERHUB_USERNAME
+    password:
+      from_secret: DOCKERHUB_PASSWORD
+  when:
+    event:
+    - push
+    branch:
+    - master
+
+- name: build-push-image-master-tagged
+  image: plugins/docker
+  settings:
+    repo: lanopsdev/gameserver-l4d2
+    tags: 
+    - ${DRONE_TAG}
+    username:
+      from_secret: DOCKERHUB_USERNAME
+    password:
+      from_secret: DOCKERHUB_PASSWORD
+  when:
+    event:
+    - tag
+    branch:
+    - master
+
+# Notifcations - End
+
+- name: notify-discord-test-failure
+  image: plugins/webhook
+  settings:
+    urls:
+      from_secret: DISCORD_WEBHOOK_URL
+    template: |
+      {
+        "username": "L4D2 Docker Build Drone",
+        "content": "__***{{uppercase build.branch }}***__ - \"${DRONE_COMMIT_MESSAGE}\" - Commit: {{ build.commit }} Failed. Fix me please!",
+        "avatar_url": "https://cdn.worldvectorlogo.com/logos/drone.svg"
+      }
+  when:
+    status:
+    - failure
+
+- name: notify-discord-image-pushed-master
+  image: plugins/webhook
+  settings:
+    urls:
+      from_secret: DISCORD_WEBHOOK_URL
+    template: |
+      {
+        "username": "L4D2 Docker Build Drone",
+        "content": "__***{{uppercase build.branch }}***__ - \"${DRONE_COMMIT_MESSAGE}\" - Commit: {{ build.commit }} - Image has been built and pushed to Docker Hub.",
+        "avatar_url": "https://cdn.worldvectorlogo.com/logos/drone.svg"
+      }
+  when:
+    branch:
+    - master
+    status:
+    - success
+
+- name: notify-discord-image-pushed-master-tagged
+  image: plugins/webhook
+  settings:
+    urls:
+      from_secret: DISCORD_WEBHOOK_URL
+    template: |
+      {
+        "username": "L4D2 Docker Build Drone",
+        "content": "__***{{uppercase build.branch }}***__ - \"${DRONE_COMMIT_MESSAGE}\" - Commit: {{ build.commit }} - Image has been built and pushed to Docker Hub.",
+        "avatar_url": "https://cdn.worldvectorlogo.com/logos/drone.svg"
+      }
+  when:
+    event:
+    - tag
+    status:
+    - success
+
+trigger:
+  branch:
+  - master
+---
+kind: signature
+hmac: 7b1e8b178c5be40738a524ea2769c521aa8ed2ec7b114d33813bb5cfb86f1837
+
+...
