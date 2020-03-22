@@ -8,7 +8,6 @@ docker run -it --name "L4D2" \
     -e SRCDS_HOSTNAME=myServer \
     -e SRCDS_MAP=c1m1_hotel \
     -e SRCDS_MAXPLAYERS=8 \
-    -e SRCDS_TOKEN=xxx \
     -e SRCDS_RCONPW=default \
     -e SRCDS_TICKRATE=64 \
     -p 27015:27015 \
