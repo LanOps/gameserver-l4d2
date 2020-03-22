@@ -74,7 +74,7 @@ fi
 # Import any addons
 if [ -f "left4dead2/addons/sm-version" ] || [ -f "left4dead2/addons/mm-version" ];
 then
-    cp -a /tmp/addons left4dead2/addons/
+    cp -a /tmp/addons/* left4dead2/addons/
 fi
 
 # Update Base Config
