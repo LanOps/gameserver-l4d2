@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cd ${SRCDS_SRV_DIR}
 
@@ -71,22 +71,6 @@ then
     echo "${SOURCEMOD_VERSION_MAJOR}.${SOURCEMOD_VERSION_MINOR}-${SOURCEMOD_BUILD}" > left4dead2/addons/sm-version
 fi
 
-# Import any addons
-if [ -f "left4dead2/addons/sm-version" ] || [ -f "left4dead2/addons/mm-version" ];
-then
-    cp -a /tmp/addons/* left4dead2/addons/
-fi
-
-# Update Base Config
-
-export SRCDS_HOSTNAME="${SRCDS_HOSTNAME:-An Amazing L4D2 Server}"
-
-sed -i 's/SERVER_NAME/'"$SRCDS_HOSTNAME"'/g' /home/steam/left4dead2/left4dead2/cfg/server.cfg
-sed -i 's/RCON_PASSWORD/'"$SRCDS_RCONPW"'/g' /home/steam/left4dead2/left4dead2/cfg/server.cfg
-sed -i 's/SV_PASSWORD/'"$SRCDS_PW"'/g' /home/steam/left4dead2/left4dead2/cfg/server.cfg 
-sed -i 's/SV_MAXPLAYERS/'"$SRCDS_MAXPLAYERS"'/g' /home/steam/left4dead2/left4dead2/cfg/server.cfg 
-
-
 # Run Server
 
 /home/steam/steamcmd/steamcmd.sh +login anonymous   \
@@ -95,18 +79,10 @@ sed -i 's/SV_MAXPLAYERS/'"$SRCDS_MAXPLAYERS"'/g' /home/steam/left4dead2/left4dea
         +quit
 ./srcds_run                                         \
     -game left4dead2                                      \
-    -tickrate ${SRCDS_TICKRATE}                     \
     -console                                        \
     -usercon                                        \
     -autoupdate                                     \
     -steam_dir /home/steam/steamcmd                 \
     -steamcmd_script /home/steam/left4dead2_update.txt    \
     -port ${SRCDS_PORT}                             \
-    -net_port_try 1                                 \
-    -nohltv                                         \
-    -insecure                                       \
-    +sv_pure ${SRCDS_PURE}                          \
-    +sv_region ${SRCDS_REGION}                      \
-    +sv_lan ${SRCDS_LAN}                            \
-    +map ${SRCDS_MAP}                               \
-    +ip 0.0.0.0
+    $@

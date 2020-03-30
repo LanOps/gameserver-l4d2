@@ -3,15 +3,7 @@ MAINTAINER Thornton Phillis (Th0rn0@lanops.co.uk)
 
 # Env - Defaults
 
-ENV SRCDS_HOSTNAME default
 ENV SRCDS_PORT 27015 
-ENV SRCDS_MAXPLAYERS 14 
-ENV SRCDS_RCONPW rconpass 
-ENV SRCDS_REGION -1
-ENV SRCDS_PURE 1
-ENV SRCDS_MAP c1m1_hotel
-ENV SRCDS_LAN 0
-ENV SRCDS_TICKRATE 64
 
 # Env - Server
 
@@ -37,15 +29,13 @@ RUN { \
         echo 'force_install_dir $SRCDS_SRV_DIR'; \
         echo 'app_update $SRCDS_APP_ID'; \
         echo 'quit'; \
-} > /home/steam/l4d2_update.txt
+} > /home/steam/left4dead2_update.txt
 ADD resources/root/startServer.sh /home/steam/startServer.sh
 
 # Pre Load LanOps Server Configs & Addons
 
 RUN mkdir -p ${SRCDS_SRV_DIR}/left4dead2/cfg/
 COPY resources/root/cfg /tmp/cfg/
-COPY resources/root/addons /tmp/addons/
-RUN ls /tmp
 
 # Expose Ports
 
@@ -55,4 +45,5 @@ EXPOSE 27020 27005 51840
 
 # Start Server
 
-CMD ["/home/steam/startServer.sh"]
+ENTRYPOINT ["/home/steam/startServer.sh"]
+CMD ['-maxplayers 8', '+sv_pure 1', '+sv_region -1', '+sv_lan 0', '+map c1m1_hotel', '+ip 0.0.0.0']
