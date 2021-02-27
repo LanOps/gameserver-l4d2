@@ -15,6 +15,7 @@ fi
 
 if [ ! -d "left4dead2/addons/metamod" ] || [ ! -f "left4dead2/addons/mm-version" ];
 then
+    echo "Getting Metamod"
     getMetaMod="true"
 fi
 if [ -f "left4dead2/addons/mm-version" ];
@@ -22,6 +23,7 @@ then
     content=$(head -n 1 left4dead2/addons/mm-version)
     if [ "${METAMOD_VERSION_MAJOR}.${METAMOD_VERSION_MINOR}-${METAMOD_BUILD}" != "$content" ];
     then
+        echo "Getting Metamod"
         getMetaMod="true"
     fi
 fi
@@ -30,6 +32,7 @@ fi
 
 if [ ! -d "left4dead2/addons/sourcemod" ] || [ ! -f "left4dead2/addons/sm-version" ];
 then
+    echo "Getting Sourcemod"
     getSourceMod="true"
 fi
 if [ -f "left4dead2/addons/sm-version" ];
@@ -37,13 +40,14 @@ then
     content=$(head -n 1 left4dead2/addons/sm-version)
     if [ "${SOURCEMOD_VERSION_MAJOR}.${SOURCEMOD_VERSION_MINOR}-${SOURCEMOD_BUILD}" != "$content" ];
     then
+        echo "Getting Sourcemod"
         getSourceMod="true"
     fi
 fi
 
 # Update MetaMod
 
-if [ $getMetaMod == "true" ];
+if [ "$getMetaMod" = "true" ];
 then
     curl -sSL https://mms.alliedmods.net/mmsdrop/$METAMOD_VERSION_MAJOR/mmsource-$METAMOD_VERSION_MAJOR.$METAMOD_VERSION_MINOR-git$METAMOD_BUILD-linux.tar.gz \
         -o /tmp/metamod.tar.gz
@@ -58,7 +62,7 @@ fi
 
 # Update SourceMod
 
-if [ $getSourceMod == "true" ];
+if [ "$getSourceMod" = "true" ];
 then
     curl -sSL https://sm.alliedmods.net/smdrop/$SOURCEMOD_VERSION_MAJOR/sourcemod-$SOURCEMOD_VERSION_MAJOR.$SOURCEMOD_VERSION_MINOR-git$SOURCEMOD_BUILD-linux.tar.gz \
         -o /tmp/sourcemod.tar.gz
