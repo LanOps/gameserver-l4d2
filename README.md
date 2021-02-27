@@ -37,3 +37,7 @@ docker run -it --name "L4D2" 						\
 ## Environment Variables
 
 * SRCDS_PORT - Port Number for the server to run on (Default 27015)
+
+## TODO
+
+Sort out permissions with /tmp/dump
