@@ -1,5 +1,4 @@
 # L4D2 Docker Image
-[![Build Status](http://drone.th0rn0.co.uk/api/badges/LanOps/gameserver-l4d2/status.svg)](http://drone.th0rn0.co.uk/LanOps/gameserver-l4d2)
 
 L4D2 Dedicated Server with Metamod & Sourcemod
 

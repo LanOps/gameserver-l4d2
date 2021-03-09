@@ -36,6 +36,8 @@ ADD resources/root/startServer.sh /home/steam/startServer.sh
 
 RUN mkdir -p ${SRCDS_SRV_DIR}/left4dead2/cfg/
 COPY resources/root/cfg /tmp/cfg/
+RUN mkdir /tmp/dump
+RUN chmod -R 777 /tmp/dump
 
 # Expose Ports
 
