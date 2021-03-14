@@ -25,7 +25,7 @@ docker run -it --name "L4D2" 						\
     -p 27015:27015/udp 								\
     lanopsdev/gameserver-left4dead2 				\
 	-insecure                                       \
-    -maxplayers ${SRCDS_MAXPLAYERS}                 \
+    +maxplayers ${SRCDS_MAXPLAYERS}                 \
     +sv_pure ${SRCDS_PURE}                          \
     +sv_region ${SRCDS_REGION}                      \
     +sv_lan ${SRCDS_LAN}                            \

@@ -14,7 +14,7 @@ ENV SRCDS_APP_ID 222860
 
 ENV SOURCEMOD_VERSION_MAJOR 1.10
 ENV SOURCEMOD_VERSION_MINOR 0
-ENV SOURCEMOD_BUILD 6275
+ENV SOURCEMOD_BUILD 6502
 ENV METAMOD_VERSION_MAJOR 1.10
 ENV METAMOD_VERSION_MINOR 7
 ENV METAMOD_BUILD 968
@@ -48,4 +48,4 @@ EXPOSE 27020 27005 51840
 # Start Server
 
 ENTRYPOINT ["/home/steam/startServer.sh"]
-CMD ['-maxplayers 8', '+sv_pure 1', '+sv_region -1', '+sv_lan 0', '+map c1m1_hotel', '+ip 0.0.0.0']
+CMD ["-maxplayers 8 +sv_pure 1 +sv_region -1 +exec server.cfg +sv_lan 0 +map c1m1_hotel +ip 0.0.0.0"]
